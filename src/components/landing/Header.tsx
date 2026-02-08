@@ -1,9 +1,14 @@
-import { Phone, MapPin, Menu, X, MessageCircle, ChevronRight } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { Phone, MapPin, Menu, X, ChevronRight } from "lucide-react";
+import { useEffect, useMemo, useState, forwardRef, useImperativeHandle } from "react";
 import logo from "/logo.png";
 import { IoMdCall } from "react-icons/io";
+import { FaWhatsapp } from "react-icons/fa";
 
-const Header = () => {
+export interface HeaderRef {
+  openMobileMenu: () => void;
+}
+
+const Header = forwardRef<HeaderRef>((props, ref) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -12,6 +17,10 @@ const Header = () => {
     phone: "",
     country: "+91",
   });
+
+  useImperativeHandle(ref, () => ({
+    openMobileMenu: () => setMobileMenuOpen(true),
+  }));
 
   const countries = useMemo(
     () => [
@@ -64,28 +73,29 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
-        <div className="container-custom mx-auto">
-          <div className="flex items-center justify-between h-16 md:h-20 px-4">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border overflow-x-hidden">
+        <div className="container-custom mx-auto max-w-full">
+          <div className="flex items-center justify-between h-16 md:h-20 px-4 max-w-full">
             
             {/* --- Logo Section (Fixed with Scaling) --- */}
-            <div className="flex items-center gap-2 -ml-2 md:-ml-3">
+            <div className="flex items-center gap-1.5 sm:gap-2 -ml-2 md:-ml-3 shrink-0">
               {/* Logo Wrapper: Fixed size + Overflow Hidden */}
-              <div className="relative h-16 w-16 md:h-20 md:w-20 shrink-0 overflow-hidden flex items-center justify-center">
+              <div className="relative h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 shrink-0 overflow-hidden flex items-center justify-center">
                 {/* Image: Scaled up to remove whitespace */}
                 <img
                   src={logo}
                   alt="Shree Ram Traders logo"
                   className="w-full h-full object-contain scale-[1.6]"
+                  loading="eager"
                 />
               </div>
               
               {/* Text Content */}
-              <div className="flex flex-col justify-center">
-                <h1 className="font-serif font-bold text-lg md:text-xl text-foreground leading-tight">
+              <div className="flex flex-col justify-center min-w-0">
+                <h1 className="font-serif font-bold text-base sm:text-lg md:text-xl text-foreground leading-tight truncate">
                   Shree Ram Traders
                 </h1>
-                <p className="text-[10px] md:text-xs text-muted-foreground hidden sm:block tracking-wide">
+                <p className="text-[10px] md:text-xs text-muted-foreground hidden sm:block tracking-wide truncate">
                   Premium Rice Seller
                 </p>
               </div>
@@ -105,13 +115,13 @@ const Header = () => {
             </nav>
 
             {/* --- Desktop CTA Buttons --- */}
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-4 shrink-0">
               <a
-                href="tel:+919430946499"
-                className="flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent transition-colors"
+                href="tel:+919031735298"
+                className="flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent transition-colors whitespace-nowrap group"
               >
-                <Phone className="w-4 h-4" />
-                +91 94309 46499
+                <Phone className="w-4 h-4 animate-vibrate" />
+                +91 90317 35298
               </a>
               <button
                 onClick={(e) => {
@@ -119,20 +129,25 @@ const Header = () => {
                   setCallbackOpen(true);
                   setSubmitted(false);
                 }}
-                className="btn-gold text-sm py-2 px-4 flex items-center gap-2"
+                className="btn-gold text-sm py-2 px-4 flex items-center gap-2 whitespace-nowrap"
               >
                 <IoMdCall className="w-4 h-4" />
                 Request Callback
               </button>
             </div>
 
-            {/* --- Mobile Menu Toggle Button --- */}
+            {/* --- Mobile Request Callback Button --- */}
             <button
-              className="lg:hidden p-2 text-foreground focus:outline-none"
-              onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open menu"
+              onClick={(e) => {
+                e.preventDefault();
+                setCallbackOpen(true);
+                setSubmitted(false);
+              }}
+              className="lg:hidden btn-gold text-xs sm:text-sm py-2 px-3 sm:px-4 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap shrink-0"
             >
-              <Menu className="w-6 h-6" />
+              <IoMdCall className="w-4 h-4" />
+              <span className="hidden sm:inline">Request Callback</span>
+              <span className="sm:hidden">Callback</span>
             </button>
           </div>
         </div>
@@ -157,7 +172,7 @@ const Header = () => {
 
         {/* The Drawer Panel */}
         <div
-          className={`relative w-full max-w-sm h-full bg-background border-l border-border shadow-2xl transform transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${
+          className={`relative w-full max-w-sm h-full bg-background border-l border-border shadow-2xl transform transition-transform duration-300 ease-out-expo flex flex-col ${
             mobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -190,11 +205,11 @@ const Header = () => {
           {/* Menu Footer (CTAs) */}
           <div className="p-6 bg-accent/5 border-t border-border/50 shrink-0 flex flex-col gap-4">
              <a
-                href="tel:+919430946499"
+                href="tel:+919031735298"
                 className="flex items-center justify-center gap-3 w-full py-4 rounded-xl border border-input bg-background font-semibold text-foreground hover:bg-accent/5 transition-colors"
               >
                 <Phone className="w-5 h-5 text-accent" />
-                +91 94309 46499
+                +91 90317 35298
               </a>
               
               <button
@@ -317,12 +332,12 @@ const Header = () => {
                   <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground sm:flex-row sm:justify-center">
                     <span>Or WhatsApp us directly</span>
                     <a
-                      href="https://wa.me/919430946499"
+                      href="https://wa.me/919031735298"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 rounded-full border border-accent px-4 py-2 font-semibold text-accent transition hover:bg-accent/10"
                     >
-                      <MessageCircle className="h-4 w-4" />
+                      <FaWhatsapp className="h-4 w-4" />
                       WhatsApp Us
                     </a>
                   </div>
@@ -341,12 +356,12 @@ const Header = () => {
 
                   <div className="flex flex-col gap-3">
                     <a
-                      href="https://wa.me/919430946499"
+                      href="https://wa.me/919031735298"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-gold w-full justify-center py-3 text-base"
                     >
-                      <MessageCircle className="h-5 w-5" />
+                      <FaWhatsapp className="h-5 w-5" />
                       Chat on WhatsApp
                     </a>
                     <button
@@ -375,6 +390,8 @@ const Header = () => {
       )}
     </>
   );
-};
+});
+
+Header.displayName = "Header";
 
 export default Header;

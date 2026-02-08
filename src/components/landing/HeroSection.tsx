@@ -3,7 +3,7 @@ import heroRice from "@/assets/hero-rice.jpg";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-32 pb-32 md:pt-40 md:pb-12">
+    <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-28 pb-28 sm:pt-32 sm:pb-32 md:pt-40 md:pb-12">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -35,9 +35,9 @@ const HeroSection = () => {
           </div>
 
           {/* Main Headline */}
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-cream mb-6 animate-fade-up delay-100 leading-tight">
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-cream mb-4 sm:mb-6 animate-fade-up delay-100 leading-tight px-2">
             Finest Quality Rice
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-gold mt-2 pb-2">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-gold mt-2 pb-2 animate-pulse">
               You Can Trust
             </span>
           </h1>
@@ -49,10 +49,10 @@ const HeroSection = () => {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up delay-300 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-fade-up delay-300 w-full sm:w-auto px-4 sm:px-0">
             <a
-              href="tel:+919430946499"
-              className="btn-gold w-full sm:w-auto justify-center text-base md:text-lg py-3 md:py-4 px-8 shadow-lg shadow-gold/20"
+              href="tel:+919031735298"
+              className="btn-gold w-full sm:w-auto justify-center text-base md:text-lg py-3 md:py-4 px-8 shadow-2xl shadow-gold/30 hover:shadow-gold/50 hover:scale-105 transition-all duration-300"
             >
               <Phone className="w-5 h-5 mr-2" />
               Call Now
@@ -61,7 +61,7 @@ const HeroSection = () => {
               href="https://maps.google.com/?q=Shree+Ram+Traders+Raxaul" 
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3 md:py-4 rounded-lg font-semibold text-cream border-2 border-cream/50 hover:bg-cream hover:text-forest transition-all duration-300"
+              className="group flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3 md:py-4 rounded-lg font-semibold text-cream bg-white/10 backdrop-blur-sm border-2 border-cream/50 hover:bg-cream hover:text-forest hover:border-cream transition-all duration-300 hover:scale-105"
             >
               <MapPin className="w-5 h-5" />
               Get Directions

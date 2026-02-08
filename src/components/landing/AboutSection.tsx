@@ -26,7 +26,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="section-padding bg-background">
+    <section id="about" className="section-padding bg-gradient-to-b from-background via-secondary/20 to-background">
       <div className="container-custom">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
@@ -41,7 +41,7 @@ const AboutSection = () => {
             </h2>
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
               <strong className="text-foreground">Shree Ram Traders</strong> is a trusted name in Raxaul for supplying 
-              premium quality rice. Located in the heart of Handi Bazar, we have been serving the 
+              premium quality rice. Located in the Handi Bazar, we have been serving the 
               community with dedication and commitment to excellence.
             </p>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
@@ -51,19 +51,19 @@ const AboutSection = () => {
             </p>
 
             {/* Values Grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {values.map((value, index) => (
                 <div
                   key={value.title}
-                  className="flex items-start gap-3 p-4 rounded-lg bg-card border border-border card-hover"
+                  className="flex items-start gap-3 p-4 sm:p-5 rounded-xl bg-gradient-to-br from-card to-card/50 border border-border hover:border-accent/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <value.icon className="w-5 h-5 text-accent" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                    <value.icon className="w-6 h-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground text-sm">{value.title}</h3>
-                    <p className="text-xs text-muted-foreground mt-1">{value.description}</p>
+                    <h3 className="font-semibold text-foreground text-base mb-1">{value.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{value.description}</p>
                   </div>
                 </div>
               ))}
@@ -73,27 +73,27 @@ const AboutSection = () => {
           {/* Visual Element */}
           <div className="relative animate-slide-in-right">
             <div className="aspect-square max-w-md mx-auto relative">
-              {/* Decorative circles */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl" />
-              <div className="absolute inset-8 bg-secondary rounded-full opacity-50" />
+              {/* Decorative circles with animation */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute inset-8 bg-gradient-to-tr from-secondary to-cream rounded-full opacity-60 animate-float" />
               
-              {/* Logo Container */}
-              <div className="absolute inset-16 bg-card rounded-full border-4 border-accent/30 flex items-center justify-center overflow-hidden shadow-xl">
+              {/* Logo Container with enhanced styling */}
+              <div className="absolute inset-16 bg-gradient-to-br from-card to-white rounded-full border-4 border-accent/40 shadow-2xl flex items-center justify-center overflow-hidden hover:border-accent transition-all duration-300 hover:scale-105">
                  <img 
                     src={logo} 
                     alt="Shree Ram Traders logo" 
-                    className="w-full h-full object-cover rounded-full" 
+                    className="w-full h-full object-cover rounded-full transition-transform duration-500 hover:scale-110" 
                  />
               </div>
 
-              {/* Floating badges */}
-              <div className="absolute top-0 right-0 bg-card shadow-medium rounded-lg px-4 py-2 animate-float z-10 border border-border">
+              {/* Floating badges with enhanced styling */}
+              <div className="absolute -top-2 -right-2 bg-gradient-to-br from-card to-white shadow-xl rounded-xl px-4 py-3 animate-float z-10 border-2 border-accent/30 hover:border-accent transition-all">
                 <div className="flex items-center gap-2">
                   <Award className="w-5 h-5 text-accent" />
                   <span className="text-sm font-semibold">Premium Quality</span>
                 </div>
               </div>
-              <div className="absolute bottom-0 left-0 bg-card shadow-medium rounded-lg px-4 py-2 animate-float delay-500 z-10 border border-border">
+              <div className="absolute -bottom-2 -left-2 bg-gradient-to-br from-card to-white shadow-xl rounded-xl px-4 py-3 animate-float delay-500 z-10 border-2 border-accent/30 hover:border-accent transition-all">
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5 text-accent" />
                   <span className="text-sm font-semibold">Trusted Business</span>

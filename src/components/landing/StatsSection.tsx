@@ -17,7 +17,7 @@ const stats = [
     icon: MapPinned,
     value: "Local",
     label: "Market Expertise",
-    description: "Deep roots in Handi Bazar"
+    description: "Deep roots in the Market"
   },
   {
     icon: Heart,
@@ -29,22 +29,25 @@ const stats = [
 
 const StatsSection = () => {
   return (
-    <section className="section-padding bg-secondary/50">
-      <div className="container-custom">
+    <section className="section-padding bg-gradient-to-br from-secondary/50 via-cream/30 to-secondary/50 relative overflow-hidden">
+      {/* Decorative Background Pattern */}
+      <div className="absolute inset-0 bg-pattern-rice opacity-50" />
+      
+      <div className="container-custom relative z-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {stats.map((stat, index) => (
             <div
               key={stat.label}
-              className="text-center group animate-fade-up"
+              className="text-center group animate-fade-up hover:-translate-y-2 transition-all duration-300"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">
-                <stat.icon className="w-8 h-8 text-accent" />
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 mb-5 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg">
+                <stat.icon className="w-10 h-10 text-accent" />
               </div>
-              <div className="font-serif text-3xl md:text-4xl font-bold text-gradient-gold mb-1">
+              <div className="font-serif text-4xl md:text-5xl font-bold text-gradient-gold mb-2">
                 {stat.value}
               </div>
-              <div className="font-semibold text-foreground mb-1">
+              <div className="font-semibold text-foreground text-lg mb-2">
                 {stat.label}
               </div>
               <div className="text-sm text-muted-foreground">

@@ -35,8 +35,12 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="section-padding bg-background">
-      <div className="container-custom">
+    <section id="contact" className="section-padding bg-gradient-to-b from-background via-secondary/10 to-background relative overflow-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute top-20 right-10 w-72 h-72 bg-accent/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      
+      <div className="container-custom relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Contact Info */}
           <div className="animate-fade-up">
@@ -54,43 +58,43 @@ const ContactSection = () => {
             {/* Contact Cards */}
             <div className="space-y-4 mb-8">
               <a
-                href="tel:+919430946499"
-                className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border card-hover group"
+                href="tel:+919031735298"
+                className="flex items-center gap-4 p-5 rounded-xl bg-gradient-to-br from-card to-card/50 border border-border hover:border-accent/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
               >
-                <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Phone className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">Call Us Now</div>
+                  <div className="text-sm text-muted-foreground font-medium">Call Us Now</div>
                   <div className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
-                    +91 94309 46499
+                    +91 90317 35298
                   </div>
                 </div>
               </a>
 
               <a
-                href="https://maps.google.com/?q=Handi+Bazar+Raxaul+Bihar"
+                href="https://maps.google.com/?q=Shree+Ram+Traders+Raxaul"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border card-hover group"
+                className="flex items-center gap-4 p-5 rounded-xl bg-gradient-to-br from-card to-card/50 border border-border hover:border-accent/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
               >
-                <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <MapPin className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">Visit Our Shop</div>
+                  <div className="text-sm text-muted-foreground font-medium">Visit Our Shop</div>
                   <div className="text-lg font-semibold text-foreground group-hover:text-accent transition-colors">
                     Handi Bazar, Raxaul, Bihar
                   </div>
                 </div>
               </a>
 
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border">
-                <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center">
+              <div className="flex items-center gap-4 p-5 rounded-xl bg-gradient-to-br from-card to-card/50 border border-border">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center">
                   <Clock className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <div className="text-sm text-muted-foreground">Business Hours</div>
+                  <div className="text-sm text-muted-foreground font-medium">Business Hours</div>
                   <div className="text-lg font-semibold text-foreground">
                     Mon - Sat: 8:00 AM - 8:00 PM
                   </div>
@@ -100,8 +104,8 @@ const ContactSection = () => {
 
             {/* CTA Button */}
             <a
-              href="tel:+919430946499"
-              className="btn-gold w-full justify-center text-lg"
+              href="tel:+919031735298"
+              className="btn-gold w-full justify-center text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
               <Phone className="w-5 h-5" />
               Call Now for Enquiry
@@ -110,11 +114,11 @@ const ContactSection = () => {
 
           {/* Enquiry Form */}
           <div className="animate-slide-in-right">
-            <div className="bg-card rounded-2xl shadow-medium p-6 md:p-8 border border-border">
-              <h3 className="font-serif text-2xl font-bold text-foreground mb-2">
+            <div className="bg-gradient-to-br from-card to-white rounded-2xl shadow-2xl p-6 md:p-8 border-2 border-border hover:border-accent/30 transition-all duration-300">
+              <h3 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-2">
                 Send an Enquiry
               </h3>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-muted-foreground mb-8">
                 Fill the form below and we'll get back to you shortly.
               </p>
 
@@ -170,7 +174,7 @@ const ContactSection = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn-primary w-full justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="btn-primary w-full justify-center disabled:opacity-70 disabled:cursor-not-allowed shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
                 >
                   {isSubmitting ? (
                     <span className="animate-pulse">Sending...</span>

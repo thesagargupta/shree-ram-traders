@@ -67,16 +67,16 @@ const WhyUsSection = () => {
           {features.map((feature, index) => (
             <div
               key={feature.title}
-              className="group bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 rounded-2xl p-6 md:p-8 transition-all duration-300 hover:bg-primary-foreground/10 hover:border-gold/30 animate-fade-up"
+              className="group bg-gradient-to-br from-primary-foreground/10 to-primary-foreground/5 backdrop-blur-sm border-2 border-primary-foreground/10 rounded-2xl p-6 md:p-8 transition-all duration-500 hover:bg-primary-foreground/15 hover:border-gold/50 hover:-translate-y-2 hover:shadow-2xl animate-fade-up"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="w-14 h-14 rounded-xl bg-gold/20 flex items-center justify-center mb-5 group-hover:bg-gold/30 transition-colors">
-                <feature.icon className="w-7 h-7 text-gold" />
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-gold/30 to-gold/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                <feature.icon className="w-8 h-8 text-gold" />
               </div>
               <h3 className="font-serif text-xl font-bold mb-3 group-hover:text-gold transition-colors">
                 {feature.title}
               </h3>
-              <p className="text-primary-foreground/70 leading-relaxed">
+              <p className="text-primary-foreground/80 leading-relaxed">
                 {feature.description}
               </p>
             </div>
