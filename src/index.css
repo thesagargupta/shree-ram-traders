@@ -1,0 +1,261 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Shree Ram Traders Design System
+   Premium Rice Business - Indian Agri-Business Aesthetic
+   Colors: Deep Green, Gold, Cream/Beige, White
+*/
+
+@layer base {
+  :root {
+    /* Core Colors - Premium Rice Business */
+    --background: 45 30% 98%;
+    --foreground: 150 30% 15%;
+
+    --card: 45 40% 97%;
+    --card-foreground: 150 30% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 30% 15%;
+
+    /* Deep Forest Green - Trust & Freshness */
+    --primary: 150 40% 22%;
+    --primary-foreground: 45 30% 98%;
+
+    /* Warm Cream - Rice Grain Tone */
+    --secondary: 40 35% 92%;
+    --secondary-foreground: 150 30% 18%;
+
+    /* Muted Sage */
+    --muted: 120 15% 90%;
+    --muted-foreground: 150 15% 40%;
+
+    /* Gold Accent - Premium Quality */
+    --accent: 43 85% 55%;
+    --accent-foreground: 150 30% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 40 25% 85%;
+    --input: 40 25% 88%;
+    --ring: 150 40% 22%;
+
+    --radius: 0.75rem;
+
+    /* Custom Colors */
+    --gold: 43 85% 55%;
+    --gold-light: 43 70% 70%;
+    --gold-dark: 43 90% 40%;
+    --cream: 40 35% 92%;
+    --cream-dark: 40 30% 85%;
+    --forest: 150 40% 22%;
+    --forest-light: 150 35% 35%;
+    --forest-dark: 150 45% 15%;
+    --sage: 120 20% 75%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(150 40% 22%) 0%, hsl(150 35% 30%) 50%, hsl(43 85% 55% / 0.2) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(43 90% 45%) 0%, hsl(43 85% 60%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(40 35% 97%) 100%);
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px hsl(150 30% 15% / 0.06);
+    --shadow-md: 0 4px 20px hsl(150 30% 15% / 0.08);
+    --shadow-lg: 0 8px 40px hsl(150 30% 15% / 0.12);
+    --shadow-gold: 0 4px 20px hsl(43 85% 55% / 0.25);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 150 30% 8%;
+    --foreground: 45 30% 95%;
+    --card: 150 25% 12%;
+    --card-foreground: 45 30% 95%;
+    --popover: 150 25% 10%;
+    --popover-foreground: 45 30% 95%;
+    --primary: 43 85% 55%;
+    --primary-foreground: 150 30% 10%;
+    --secondary: 150 20% 18%;
+    --secondary-foreground: 45 30% 90%;
+    --muted: 150 15% 20%;
+    --muted-foreground: 45 20% 65%;
+    --accent: 43 75% 50%;
+    --accent-foreground: 150 30% 10%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 150 20% 20%;
+    --input: 150 20% 22%;
+    --ring: 43 85% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply px-4 py-16 md:px-8 md:py-24 lg:px-16;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, hsl(43 90% 45%) 0%, hsl(43 85% 60%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-pattern-rice {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a855' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold 
+           transition-all duration-300 hover:shadow-lg hover:scale-105 
+           inline-flex items-center gap-2;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, hsl(43 90% 45%) 0%, hsl(43 85% 55%) 100%);
+    @apply text-forest px-8 py-4 rounded-lg font-semibold 
+           transition-all duration-300 hover:shadow-lg hover:scale-105 
+           inline-flex items-center gap-2;
+    box-shadow: 0 4px 20px hsl(43 85% 55% / 0.3);
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold 
+           transition-all duration-300 hover:bg-primary hover:text-primary-foreground 
+           inline-flex items-center gap-2;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.6s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Text color utility for forest green */
+.text-forest {
+  color: hsl(150 40% 22%);
+}
