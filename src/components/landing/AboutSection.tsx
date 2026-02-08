@@ -36,6 +36,7 @@ const AboutSection = () => {
             </span>
             <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
               A Trusted Name in{" "}
+              <br></br>
               <span className="text-gradient-gold">Quality Rice</span>
             </h2>
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
