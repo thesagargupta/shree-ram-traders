@@ -1,0 +1,20 @@
+{
+  "name": "shree-ram-traders-server",
+  "version": "1.0.0",
+  "description": "Backend server for Shree Ram Traders contact form with nodemailer",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["express", "nodemailer", "contact-form"],
+  "author": "Shree Ram Traders",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "nodemailer": "^6.9.7"
+  }
+}

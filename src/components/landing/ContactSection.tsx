@@ -15,16 +15,45 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      // Use relative path for Vercel deployment, absolute for local dev
+      const apiUrl = import.meta.env.PROD 
+        ? '/api/contact' 
+        : 'http://localhost:3001/api/contact';
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    toast({
-      title: "Enquiry Sent!",
-      description: "We will contact you shortly. Thank you for your interest!",
-    });
+      const data = await response.json();
 
-    setFormData({ name: "", phone: "", message: "" });
-    setIsSubmitting(false);
+      if (response.ok && data.success) {
+        toast({
+          title: "Enquiry Sent! ✅",
+          description: "We will contact you shortly. Thank you for your interest!",
+        });
+        setFormData({ name: "", phone: "", message: "" });
+      } else {
+        toast({
+          title: "Failed to Send",
+          description: data.message || "Please try again or call us directly at +91 90317 35298",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Connection Error",
+        description: "Unable to send enquiry. Please call us at +91 90317 35298",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
