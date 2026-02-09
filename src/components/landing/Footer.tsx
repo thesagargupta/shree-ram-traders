@@ -46,7 +46,7 @@ const Footer = () => {
             {/* Description Text */}
             <p className="text-primary-foreground/80 leading-relaxed text-sm md:text-base max-w-md">
               Delivering the finest quality rice to homes and businesses in Raxaul and beyond. 
-              Committed to purity, fair pricing, and building lasting relationships since 20 years.
+              Committed to purity, fair pricing, and building lasting relationships since more than 20 years.
             </p>
             
             {/* Social Media Links */}

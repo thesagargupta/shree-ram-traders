@@ -30,7 +30,7 @@ const HeroSection = () => {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-gold"></span>
             </span>
             <span className="text-xs md:text-sm font-medium text-cream tracking-wide">
-              Trusted Since 20 Years in Raxaul
+              Trusted Since more than 20 Years in Raxaul
             </span>
           </div>
 
