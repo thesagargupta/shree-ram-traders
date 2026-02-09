@@ -36,6 +36,57 @@ transporter.verify((error, success) => {
   }
 });
 
+// Send WhatsApp notification using WhatsApp Business API
+const sendWhatsAppNotification = async (data) => {
+  const whatsappToken = process.env.WHATSAPP_TOKEN;
+  const whatsappPhoneId = process.env.WHATSAPP_PHONE_ID;
+  const recipientNumber = process.env.WHATSAPP_RECIPIENT;
+
+  if (!whatsappToken || !whatsappPhoneId || !recipientNumber) {
+    console.log('⚠️  WhatsApp credentials not configured, skipping WhatsApp notification');
+    return false;
+  }
+
+  try {
+    const message = `🌾 *New Customer Enquiry*\n━━━━━━━━━━━━━━━━━━━\n\n*Customer Name:*\n${data.name}\n\n*Phone Number:*\n${data.phone}\n\n*Message:*\n${data.message}\n\n━━━━━━━━━━━━━━━━━━━\n⏰ ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}\n\n📞 Call customer: ${data.phone}`;
+
+    const response = await fetch(
+      `https://graph.facebook.com/v18.0/${whatsappPhoneId}/messages`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${whatsappToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messaging_product: 'whatsapp',
+          to: recipientNumber,
+          type: 'text',
+          text: { body: message },
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('❌ WhatsApp API Error:');
+      console.error('Status:', response.status);
+      console.error('Error Details:', JSON.stringify(errorData, null, 2));
+      console.error('Phone ID:', whatsappPhoneId);
+      console.error('Recipient:', recipientNumber);
+      return false;
+    }
+
+    const result = await response.json();
+    console.log(`✅ WhatsApp notification sent successfully to ${recipientNumber}`);
+    console.log('WhatsApp API Response:', JSON.stringify(result, null, 2));
+    return true;
+  } catch (error) {
+    console.error('❌ Error sending WhatsApp notification:', error.message);
+    return false;
+  }
+};
+
 // Generate email HTML template
 const generateEmailTemplate = (data) => {
   return `
@@ -184,7 +235,7 @@ const generateEmailTemplate = (data) => {
           <p>This is an automated email from your website contact form.</p>
           <p><strong>Shree Ram Traders</strong><br>
           Handi Bazar, Raxaul, Bihar - 845305<br>
-          📞 +91 90317 35298</p>
+          📞 +91 94309 46499</p>
         </div>
       </div>
     </body>
@@ -223,18 +274,43 @@ Received on: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
   };
 
   try {
-    // Send email
-    await transporter.sendMail(mailOptions);
+    const notificationResults = {
+      whatsapp: false,
+      email: false,
+    };
 
-    // Log successful submission
-    console.log(`✅ Enquiry email sent successfully for ${name} (${phone})`);
+    // Try WhatsApp notification first (free and instant)
+    console.log('🔄 Attempting WhatsApp notification...');
+    notificationResults.whatsapp = await sendWhatsAppNotification({ name, phone, message });
 
-    res.status(200).json({
-      success: true,
-      message: 'Enquiry sent successfully! We will contact you shortly.',
-    });
+    // Try Email notification
+    console.log('🔄 Attempting Email notification...');
+    try {
+      await transporter.sendMail(mailOptions);
+      notificationResults.email = true;
+      console.log(`✅ Email notification sent successfully for ${name} (${phone})`);
+    } catch (emailError) {
+      console.error('❌ Error sending email:', emailError.message);
+    }
+
+    // Success if at least one notification method worked
+    if (notificationResults.whatsapp || notificationResults.email) {
+      const methods = [];
+      if (notificationResults.whatsapp) methods.push('WhatsApp');
+      if (notificationResults.email) methods.push('Email');
+      
+      console.log(`✅ Enquiry sent via: ${methods.join(' + ')}`);
+      
+      return res.status(200).json({
+        success: true,
+        message: 'Enquiry sent successfully! We will contact you shortly.',
+        methods: notificationResults,
+      });
+    } else {
+      throw new Error('All notification methods failed');
+    }
   } catch (error) {
-    console.error('❌ Error sending email:', error);
+    console.error('❌ Error processing enquiry:', error);
     
     res.status(500).json({
       success: false,

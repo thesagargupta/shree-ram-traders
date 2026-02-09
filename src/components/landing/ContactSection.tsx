@@ -40,7 +40,7 @@ const ContactSection = () => {
       } else {
         toast({
           title: "Failed to Send",
-          description: data.message || "Please try again or call us directly at +91 90317 35298",
+          description: data.message || "Please try again or call us directly at +91 94309 46499",
           variant: "destructive",
         });
       }
@@ -48,7 +48,7 @@ const ContactSection = () => {
       console.error('Error submitting form:', error);
       toast({
         title: "Connection Error",
-        description: "Unable to send enquiry. Please call us at +91 90317 35298",
+        description: "Unable to send enquiry. Please call us at +91 94309 46499",
         variant: "destructive",
       });
     } finally {
@@ -87,7 +87,7 @@ const ContactSection = () => {
             {/* Contact Cards */}
             <div className="space-y-4 mb-8">
               <a
-                href="tel:+919031735298"
+                href="tel:+919430946499"
                 className="flex items-center gap-4 p-5 rounded-xl bg-gradient-to-br from-card to-card/50 border border-border hover:border-accent/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
               >
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -96,7 +96,7 @@ const ContactSection = () => {
                 <div>
                   <div className="text-sm text-muted-foreground font-medium">Call Us Now</div>
                   <div className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
-                    +91 90317 35298
+                    +91 94309 46499
                   </div>
                 </div>
               </a>
@@ -133,7 +133,7 @@ const ContactSection = () => {
 
             {/* CTA Button */}
             <a
-              href="tel:+919031735298"
+              href="tel:+919430946499"
               className="btn-gold w-full justify-center text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
               <Phone className="w-5 h-5" />

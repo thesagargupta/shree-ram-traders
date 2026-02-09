@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const FloatingWhatsApp = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const phoneNumber = "919031735298";
+  const phoneNumber = "919430946499";
   const defaultMessage = "Hello! I'm interested in your premium rice products.";
 
   const handleWhatsAppClick = () => {

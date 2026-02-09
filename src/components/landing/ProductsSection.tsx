@@ -115,14 +115,14 @@ const ProductsSection = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="tel:+919031735298"
+              href="tel:+919430946499"
               className="btn-gold shadow-2xl hover:shadow-gold/50 hover:scale-105 transition-all duration-300 w-full sm:w-auto justify-center"
             >
               <Phone className="w-5 h-5" />
               Call for Enquiry
             </a>
             <a
-              href="https://wa.me/919031735298?text=Hello!%20I%27m%20interested%20in%20your%20premium%20rice%20products."
+              href="https://wa.me/919430946499?text=Hello!%20I%27m%20interested%20in%20your%20premium%20rice%20products."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:scale-105 shadow-xl w-full sm:w-auto justify-center"

@@ -64,6 +64,34 @@ This project is built with:
 
 Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
 
+For detailed Vercel deployment with backend services, see: [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)
+
+## 📱 WhatsApp Notifications Setup
+
+This project includes a FREE WhatsApp notification system for customer enquiries.
+
+### ⚠️ Important: Token Expiration
+If you're using a temporary token from Meta dashboard, it **expires in 23 hours**!
+
+### ✅ Get a Permanent Token (Never Expires)
+**👉 Follow this guide: [WHATSAPP_PERMANENT_TOKEN.md](./WHATSAPP_PERMANENT_TOKEN.md)** (5 minutes)
+
+**No billing required!** First 1,000 conversations/month are completely FREE.
+
+### Quick Setup:
+1. Create System User in Meta Business Settings
+2. Generate permanent token (set expiration to "Never")
+3. Copy Phone Number ID from API Setup
+4. Verify recipient number: +919430946499
+5. Add to `.env`:
+   ```env
+   WHATSAPP_TOKEN=your_permanent_token
+   WHATSAPP_PHONE_ID=your_phone_number_id
+   WHATSAPP_RECIPIENT=919430946499
+   ```
+6. Add same variables to Vercel environment variables
+7. Deploy!
+
 ## Can I connect a custom domain to my Lovable project?
 
 Yes, you can!

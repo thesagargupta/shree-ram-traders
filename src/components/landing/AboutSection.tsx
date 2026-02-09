@@ -39,6 +39,14 @@ const AboutSection = () => {
               <br></br>
               <span className="text-gradient-gold">Quality Rice</span>
             </h2>
+            
+            {/* Proprietor Highlight */}
+            <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-accent/10 to-transparent border-l-4 border-accent">
+              <p className="text-sm font-semibold text-accent uppercase tracking-wider mb-1">Business Owner</p>
+              <p className="text-2xl font-serif font-bold text-foreground">Tripurari Prasad</p>
+              <p className="text-sm text-muted-foreground mt-1">Proprietor, Shree Ram Traders</p>
+            </div>
+            
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
               <strong className="text-foreground">Shree Ram Traders</strong> is a trusted name in Raxaul for supplying 
               premium quality rice. Located in the Handi Bazar, we have been serving the 

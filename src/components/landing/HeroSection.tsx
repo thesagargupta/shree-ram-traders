@@ -51,7 +51,7 @@ const HeroSection = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-fade-up delay-300 w-full sm:w-auto px-4 sm:px-0">
             <a
-              href="tel:+919031735298"
+              href="tel:+919430946499"
               className="btn-gold w-full sm:w-auto justify-center text-base md:text-lg py-3 md:py-4 px-8 shadow-2xl shadow-gold/30 hover:shadow-gold/50 hover:scale-105 transition-all duration-300"
             >
               <Phone className="w-5 h-5 mr-2" />

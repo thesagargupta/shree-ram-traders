@@ -3,15 +3,18 @@ import { useEffect, useMemo, useState, forwardRef, useImperativeHandle } from "r
 import logo from "/logo.webp";
 import { IoMdCall } from "react-icons/io";
 import { FaWhatsapp } from "react-icons/fa";
+import { useToast } from "@/hooks/use-toast";
 
 export interface HeaderRef {
   openMobileMenu: () => void;
 }
 
 const Header = forwardRef<HeaderRef>((props, ref) => {
+  const { toast } = useToast();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
@@ -66,9 +69,52 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
     setCallbackOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      const apiUrl = import.meta.env.PROD 
+        ? '/api/contact' 
+        : 'http://localhost:3001/api/contact';
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.fullName,
+          phone: `${form.country} ${form.phone}`,
+          message: `CALLBACK REQUEST - Please call this customer back at their convenience.`
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast({
+          title: "Request Received! ✅",
+          description: "We will call you back soon. Thank you!",
+        });
+        setSubmitted(true);
+      } else {
+        toast({
+          title: "Failed to Send",
+          description: data.message || "Please try again or call us directly at +91 94309 46499",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting callback request:', error);
+      toast({
+        title: "Connection Error",
+        description: "Unable to send request. Please call us at +91 94309 46499",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -95,7 +141,10 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
                 <h1 className="font-serif font-bold text-base sm:text-lg md:text-xl text-foreground leading-tight truncate">
                   Shree Ram Traders
                 </h1>
-                <p className="text-[10px] md:text-xs text-muted-foreground hidden sm:block tracking-wide truncate">
+                <p className="text-[10px] md:text-xs text-accent font-semibold tracking-wide truncate">
+                  Proprietor: Tripurari Prasad
+                </p>
+                <p className="text-[9px] md:text-[10px] text-muted-foreground hidden sm:block tracking-wide truncate">
                   Premium Rice Seller
                 </p>
               </div>
@@ -117,11 +166,11 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
             {/* --- Desktop CTA Buttons --- */}
             <div className="hidden lg:flex items-center gap-4 shrink-0">
               <a
-                href="tel:+919031735298"
+                href="tel:+919430946499"
                 className="flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent transition-colors whitespace-nowrap group"
               >
                 <Phone className="w-4 h-4 animate-vibrate" />
-                +91 90317 35298
+                +91 94309 46499
               </a>
               <button
                 onClick={(e) => {
@@ -205,11 +254,11 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
           {/* Menu Footer (CTAs) */}
           <div className="p-6 bg-accent/5 border-t border-border/50 shrink-0 flex flex-col gap-4">
              <a
-                href="tel:+919031735298"
+                href="tel:+919430946499"
                 className="flex items-center justify-center gap-3 w-full py-4 rounded-xl border border-input bg-background font-semibold text-foreground hover:bg-accent/5 transition-colors"
               >
                 <Phone className="w-5 h-5 text-accent" />
-                +91 90317 35298
+                +91 94309 46499
               </a>
               
               <button
@@ -324,15 +373,16 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
 
                   <button
                     type="submit"
-                    className="btn-gold w-full justify-center py-3 text-base"
+                    disabled={isSubmitting}
+                    className="btn-gold w-full justify-center py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Submit Request
+                    {isSubmitting ? "Sending..." : "Submit Request"}
                   </button>
 
                   <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground sm:flex-row sm:justify-center">
                     <span>Or WhatsApp us directly</span>
                     <a
-                      href="https://wa.me/919031735298"
+                      href="https://wa.me/919430946499"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 rounded-full border border-accent px-4 py-2 font-semibold text-accent transition hover:bg-accent/10"
@@ -356,7 +406,7 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
 
                   <div className="flex flex-col gap-3">
                     <a
-                      href="https://wa.me/919031735298"
+                      href="https://wa.me/919430946499"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-gold w-full justify-center py-3 text-base"

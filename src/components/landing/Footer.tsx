@@ -54,7 +54,7 @@ const Footer = () => {
               <span className="text-xs uppercase tracking-wider text-primary-foreground/50 font-bold">Follow Us:</span>
               <div className="flex items-center gap-3">
                 <a
-                  href="https://wa.me/919031735298"
+                  href="https://wa.me/919430946499"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center transition-all duration-300 hover:scale-110 group"
@@ -138,14 +138,14 @@ const Footer = () => {
             <div className="flex flex-col gap-5">
               
               {/* Phone */}
-              <a href="tel:+919031735298" className="flex items-start gap-4 group transition-all duration-300 hover:translate-x-2">
+              <a href="tel:+919430946499" className="flex items-start gap-4 group transition-all duration-300 hover:translate-x-2">
                 <div className="bg-gold/10 p-3 rounded-xl group-hover:bg-gold/20 transition-all duration-300 shrink-0 group-hover:scale-110">
                   <Phone className="w-5 h-5 text-gold" />
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-wider text-primary-foreground/50 font-bold mb-0.5">Call Us</p>
                   <p className="text-lg font-medium text-white group-hover:text-gold transition-colors">
-                    +91 90317 35298
+                    +91 94309 46499
                   </p>
                 </div>
               </a>
