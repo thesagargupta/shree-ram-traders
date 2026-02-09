@@ -1,34 +1,50 @@
 # Shree Ram Traders - Premium Rice Supplier
-# robots.txt for https://shreeramtraders.shop
+# robots.txt for https://www.shreeramtradersrxl.in/
 
-# Allow all search engines
+# Allow all search engines - Fast Crawling Enabled
 User-agent: *
 Allow: /
+Crawl-delay: 0
 
-# Allow specific bots
+# Google Bot - Highest Priority
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 0
 
 User-agent: Googlebot-Image
 Allow: /
+Crawl-delay: 0
 
+User-agent: Googlebot-Mobile
+Allow: /
+Crawl-delay: 0
+
+# Bing Bot
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 0
 
+# Yahoo Bot
 User-agent: Slurp
 Allow: /
+Crawl-delay: 0
 
+# DuckDuckGo Bot
 User-agent: DuckDuckBot
 Allow: /
+Crawl-delay: 0
 
+# Baidu (Chinese Search Engine)
 User-agent: Baiduspider
 Allow: /
+Crawl-delay: 1
 
+# Yandex (Russian Search Engine)
 User-agent: YandexBot
 Allow: /
+Crawl-delay: 0
 
+# Social Media Crawlers
 User-agent: Twitterbot
 Allow: /
 
@@ -41,9 +57,16 @@ Allow: /
 User-agent: WhatsApp
 Allow: /
 
+User-agent: Pinterestbot
+Allow: /
+
+User-agent: Instagrambot
+Allow: /
+
 # Disallow specific paths (if any)
 # Disallow: /admin/
+# Disallow: /api/
 # Disallow: /private/
 
-# Sitemap location
-Sitemap: https://shreeramtraders.com/sitemap.xml
+# Sitemap locations
+Sitemap: https://www.shreeramtradersrxl.in/sitemap.xml
