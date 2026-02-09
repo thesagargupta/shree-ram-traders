@@ -16,10 +16,7 @@ const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      // Use relative path for Vercel deployment, absolute for local dev
-      const apiUrl = import.meta.env.PROD 
-        ? '/api/contact' 
-        : 'http://localhost:3001/api/contact';
+      const apiUrl = `${import.meta.env.VITE_API_URL || ''}/api/contact`;
       
       const response = await fetch(apiUrl, {
         method: 'POST',
