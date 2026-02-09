@@ -62,9 +62,61 @@ This project is built with:
 
 ## How can I deploy this project?
 
+### 🚀 Quick Deploy (Recommended)
+
+**Frontend (Vercel):**
 Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
 
-For detailed Vercel deployment with backend services, see: [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)
+**Backend (Render - Free):**
+👉 **Follow this guide: [RENDER_DEPLOYMENT.md](./RENDER_DEPLOYMENT.md)** (5 minutes)
+
+### 📋 Deployment Architecture
+
+This project uses a **separate backend deployment** for better performance:
+
+- **Frontend**: Vercel (Static hosting, CDN, instant deploys)
+- **Backend**: Render/Railway (Node.js Express server, always-on)
+
+**Why separate backend?**
+- Vercel serverless functions have cold start delays (~5-10 seconds)
+- Render free tier keeps your backend warm
+- Better logging and debugging
+- No vendor lock-in
+
+### ⚙️ Environment Variables Setup
+
+**Frontend (.env):**
+```env
+VITE_API_URL=https://your-backend-url.onrender.com
+```
+
+**Backend (server/.env):**
+```env
+PORT=3001
+NODE_ENV=production
+FRONTEND_URL=https://www.shreeramtradersrxl.in
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+EMAIL_RECIPIENT=recipient@gmail.com
+WHATSAPP_TOKEN=your-permanent-token
+WHATSAPP_PHONE_ID=your-phone-number-id
+WHATSAPP_RECIPIENT=918809197377
+```
+
+**Add to Vercel Dashboard:**
+- Go to Project Settings → Environment Variables
+- Add `VITE_API_URL` with your Render backend URL
+- Redeploy
+
+**Add to Render Dashboard:**
+- During service creation, add all backend env vars
+- Or go to Service → Environment → Add variables
+
+### 🔗 Complete Deployment Guides
+
+- **Backend Deployment**: [RENDER_DEPLOYMENT.md](./RENDER_DEPLOYMENT.md)
+- **WhatsApp Setup**: [WHATSAPP_PERMANENT_TOKEN.md](./WHATSAPP_PERMANENT_TOKEN.md)
+- **Vercel Deployment** (legacy): [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)
 
 ## 📱 WhatsApp Notifications Setup
 

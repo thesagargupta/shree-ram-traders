@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: shree-ram-traders-backend
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: EMAIL_RECIPIENT
+        sync: false
+      - key: WHATSAPP_TOKEN
+        sync: false
+      - key: WHATSAPP_PHONE_ID
+        sync: false
+      - key: WHATSAPP_RECIPIENT
+        sync: false
+      - key: FRONTEND_URL
+        value: https://www.shreeramtradersrxl.in
+    healthCheckPath: /api/health
