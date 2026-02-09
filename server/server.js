@@ -40,21 +40,28 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Create nodemailer transporter
+// Create nodemailer transporter with SSL (port 465) for Render compatibility
+// Render blocks port 587, so we use port 465 with secure: true
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // Use SSL
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  tls: {
+    rejectUnauthorized: true
+  }
 });
 
 // Verify transporter configuration
 transporter.verify((error, success) => {
   if (error) {
-    console.error('Error configuring email transporter:', error);
+    console.error('❌ Error configuring email transporter:', error);
+    console.error('💡 Make sure EMAIL_USER and EMAIL_PASS are set correctly');
   } else {
-    console.log('Email server is ready to send messages');
+    console.log('✅ Email server is ready to send messages (SMTP SSL on port 465)');
   }
 });
 
@@ -305,14 +312,24 @@ Received on: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
     console.log('🔄 Attempting WhatsApp notification...');
     notificationResults.whatsapp = await sendWhatsAppNotification({ name, phone, message });
 
-    // Try Email notification
+    // Try Email notification with timeout
     console.log('🔄 Attempting Email notification...');
     try {
-      await transporter.sendMail(mailOptions);
+      // Add 10 second timeout for email
+      const emailPromise = transporter.sendMail(mailOptions);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Email timeout after 10 seconds')), 10000)
+      );
+      
+      await Promise.race([emailPromise, timeoutPromise]);
       notificationResults.email = true;
-      console.log(`✅ Email notification sent successfully for ${name} (${phone})`);
+      console.log(`✅ Email notification sent successfully to ${process.env.EMAIL_RECIPIENT}`);
     } catch (emailError) {
       console.error('❌ Error sending email:', emailError.message);
+      console.error('💡 Gmail SMTP may be blocked by firewall. WhatsApp notification is working as primary method.');
+      if (emailError.code) {
+        console.error('Error Code:', emailError.code);
+      }
     }
 
     // Success if at least one notification method worked

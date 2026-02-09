@@ -240,14 +240,20 @@ export default async function handler(req, res) {
     // Try WhatsApp notification first (free and instant)
     notificationResults.whatsapp = await sendWhatsAppNotification({ name, phone, message });
 
-    // Try Email notification
+    // Try Email notification with timeout
     try {
+      // Use port 465 with SSL for Vercel/Render compatibility
       const transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // Use SSL
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
         },
+        tls: {
+          rejectUnauthorized: true
+        }
       });
 
       const mailOptions = {
@@ -266,11 +272,21 @@ Received on: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
         `.trim(),
       };
 
-      await transporter.sendMail(mailOptions);
+      // Add 10 second timeout for email
+      const emailPromise = transporter.sendMail(mailOptions);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Email timeout after 10 seconds')), 10000)
+      );
+      
+      await Promise.race([emailPromise, timeoutPromise]);
       notificationResults.email = true;
-      console.log(`✅ Email notification sent successfully for ${name} (${phone})`);
+      console.log(`✅ Email notification sent successfully to ${process.env.EMAIL_RECIPIENT}`);
     } catch (emailError) {
       console.error('❌ Error sending email:', emailError.message);
+      console.error('💡 Gmail SMTP may be blocked. WhatsApp notification is working as primary method.');
+      if (emailError.code) {
+        console.error('Error Code:', emailError.code);
+      }
     }
 
     // Success if at least one notification method worked
