@@ -1,5 +1,5 @@
 import { Award, Users, Handshake, Leaf } from "lucide-react";
-import logo from "/logo.png";
+import logo from "/logo.webp";
 
 const AboutSection = () => {
   const values = [

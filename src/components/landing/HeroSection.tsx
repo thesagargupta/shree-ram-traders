@@ -1,5 +1,5 @@
 import { Phone, MapPin, ChevronDown } from "lucide-react";
-import heroRice from "@/assets/hero-rice.jpg";
+import heroRice from "@/assets/hero-rice.webp";
 
 const HeroSection = () => {
   return (

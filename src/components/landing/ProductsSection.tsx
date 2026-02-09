@@ -1,10 +1,10 @@
-import riceBasmati from "@/assets/rice-basmati.jpg";
-import riceLonggrain from "@/assets/rice-longgrain.jpg";
-import riceSteam from "@/assets/rice-steam.jpg";
-// import riceDaily from "@/assets/rice-daily.jpg";
-// import riceBulk from "@/assets/rice-bulk.jpg";
-import riceSona from "@/assets/SonaMasoori.jpg";
-import riceResort from "@/assets/resort.jpg";
+import riceBasmati from "@/assets/rice-basmati.webp";
+import riceLonggrain from "@/assets/rice-longgrain.webp";
+import riceSteam from "@/assets/rice-steam.webp";
+// import riceDaily from "@/assets/rice-daily.webp";
+// import riceBulk from "@/assets/rice-bulk.webp";
+import riceSona from "@/assets/SonaMasoori.webp";
+import riceResort from "@/assets/resort.webp";
 import sella from "@/assets/sella.webp";
 import { Phone } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";

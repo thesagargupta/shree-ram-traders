@@ -1,6 +1,6 @@
 import { Phone, MapPin, Menu, X, ChevronRight } from "lucide-react";
 import { useEffect, useMemo, useState, forwardRef, useImperativeHandle } from "react";
-import logo from "/logo.png";
+import logo from "/logo.webp";
 import { IoMdCall } from "react-icons/io";
 import { FaWhatsapp } from "react-icons/fa";
 

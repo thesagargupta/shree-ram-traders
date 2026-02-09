@@ -1,6 +1,6 @@
 import { Phone, MapPin, Heart, ChevronRight } from "lucide-react";
 import { FaWhatsapp, FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
-import logo from "/logo.png";
+import logo from "/logo.webp";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
