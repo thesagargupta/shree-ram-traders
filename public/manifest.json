@@ -12,16 +12,22 @@
   "dir": "ltr",
   "icons": [
     {
-      "src": "/logo.webp",
+      "src": "/web-app-manifest-192x192.png",
       "sizes": "192x192",
-      "type": "image/webp",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/logo.webp",
+      "src": "/web-app-manifest-512x512.png",
       "sizes": "512x512",
-      "type": "image/webp",
+      "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "categories": ["business", "shopping", "food"],
