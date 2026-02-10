@@ -74,7 +74,7 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
     setIsSubmitting(true);
 
     try {
-      const apiUrl = `${import.meta.env.VITE_API_URL || ''}/api/contact`;
+      const apiUrl = `/api/contact`;
       
       const response = await fetch(apiUrl, {
         method: 'POST',
