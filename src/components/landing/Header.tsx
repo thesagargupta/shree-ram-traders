@@ -454,14 +454,14 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
                     </p>
                     {submitMeta?.methodStatus && (
                       <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                        <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
+                        {/* <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
                           <Wheat className="h-3.5 w-3.5 text-accent" />
                           WhatsApp: {submitMeta.methodStatus.whatsapp}
                         </span>
                         <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
                           <Wheat className="h-3.5 w-3.5 text-accent" />
                           Email: {submitMeta.methodStatus.email}
-                        </span>
+                        </span> */}
                       </div>
                     )}
                   </div>

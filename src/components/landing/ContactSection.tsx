@@ -204,7 +204,7 @@ const ContactSection = () => {
                             : "We received your request. We will contact you shortly."}
                       </p>
                       <div className="mt-4 flex items-center gap-3 text-sm text-muted-foreground">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
+                        {/* <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
                           <Wheat className="h-4 w-4 text-accent" />
                           <span>
                             {submitResult.methodStatus?.whatsapp ? `WhatsApp: ${submitResult.methodStatus.whatsapp}` : "WhatsApp"}
@@ -215,7 +215,7 @@ const ContactSection = () => {
                           <span>
                             {submitResult.methodStatus?.email ? `Email: ${submitResult.methodStatus.email}` : "Email"}
                           </span>
-                        </div>
+                        </div> */}
                       </div>
 
                       <button

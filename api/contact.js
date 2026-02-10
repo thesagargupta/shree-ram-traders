@@ -1,42 +1,5 @@
 import nodemailer from 'nodemailer';
 
-let cachedTransporter;
-
-const getEmailTransporter = () => {
-  if (cachedTransporter) return cachedTransporter;
-
-  cachedTransporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    tls: {
-      rejectUnauthorized: true,
-    },
-  });
-
-  return cachedTransporter;
-};
-
-const withTimeout = (promise, ms) => {
-  return new Promise((resolve) => {
-    const timer = setTimeout(() => resolve({ ok: false, timedOut: true }), ms);
-
-    Promise.resolve(promise)
-      .then((ok) => {
-        clearTimeout(timer);
-        resolve({ ok: Boolean(ok) });
-      })
-      .catch((error) => {
-        clearTimeout(timer);
-        resolve({ ok: false, error: error?.message || 'Unknown error' });
-      });
-  });
-};
-
 // Send WhatsApp notification using WhatsApp Business API
 const sendWhatsAppNotification = async (data) => {
   const whatsappToken = process.env.WHATSAPP_TOKEN;
@@ -80,37 +43,6 @@ const sendWhatsAppNotification = async (data) => {
     console.error('❌ Error sending WhatsApp notification:', error.message);
     return false;
   }
-};
-
-const sendEmailNotification = async (data) => {
-  const emailUser = process.env.EMAIL_USER;
-  const emailPass = process.env.EMAIL_PASS;
-
-  if (!emailUser || !emailPass) {
-    console.log('⚠️  Email credentials not configured, skipping email notification');
-    return false;
-  }
-
-  const transporter = getEmailTransporter();
-
-  const mailOptions = {
-    from: `"Shree Ram Traders Website" <${emailUser}>`,
-    to: process.env.EMAIL_RECIPIENT || emailUser,
-    subject: `🌾 New Enquiry from ${data.name} - Shree Ram Traders`,
-    html: generateEmailTemplate(data),
-    text: `
-New Customer Enquiry - Shree Ram Traders
-
-Name: ${data.name}
-Phone: ${data.phone}
-Message: ${data.message}
-
-Received on: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
-    `.trim(),
-  };
-
-  await transporter.sendMail(mailOptions);
-  return true;
 };
 
 // Generate email HTML template
@@ -300,115 +232,79 @@ export default async function handler(req, res) {
   }
 
   try {
-    const data = { name, phone, message };
-
-    const methodStatus = {
-      whatsapp: 'processing',
-      email: 'processing',
-    };
-
-    const tasks = [];
-
-    const hasWhatsApp = Boolean(process.env.WHATSAPP_TOKEN && process.env.WHATSAPP_PHONE_ID && process.env.WHATSAPP_RECIPIENT);
-    if (hasWhatsApp) {
-      const p = withTimeout(sendWhatsAppNotification(data), 7000);
-      tasks.push(['whatsapp', p]);
-    } else {
-      methodStatus.whatsapp = 'skipped';
-    }
-
-    const hasEmail = Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS);
-    if (hasEmail) {
-      const p = withTimeout(sendEmailNotification(data), 9000);
-      tasks.push(['email', p]);
-    } else {
-      methodStatus.email = 'skipped';
-    }
-
-    if (tasks.length === 0) {
-      throw new Error('No notification method is configured');
-    }
-
     const notificationResults = {
       whatsapp: false,
       email: false,
     };
 
-    const pending = [...tasks];
-    let firstSuccessfulMethod = null;
+    // Try WhatsApp notification first (free and instant)
+    notificationResults.whatsapp = await sendWhatsAppNotification({ name, phone, message });
 
-    while (pending.length > 0) {
-      const raced = await Promise.race(
-        pending.map(([method, promise]) =>
-          promise.then((result) => ({ method, result }))
-        )
-      );
-
-      const idx = pending.findIndex(([m]) => m === raced.method);
-      if (idx >= 0) pending.splice(idx, 1);
-
-      const ok = Boolean(raced.result?.ok);
-      notificationResults[raced.method] = ok;
-      methodStatus[raced.method] = ok ? 'success' : 'failed';
-
-      if (ok) {
-        firstSuccessfulMethod = raced.method;
-        break;
-      }
-    }
-
-    if (firstSuccessfulMethod) {
-      // Best-effort: let the other method continue in background.
-      // Note: In serverless this is not guaranteed, but it often completes.
-      for (const [method, promise] of pending) {
-        promise
-          .then((result) => {
-            const ok = Boolean(result?.ok);
-            console.log(`ℹ️  Background ${method} result:`, ok ? 'success' : 'failed');
-          })
-          .catch(() => {
-            console.log(`ℹ️  Background ${method} result: failed`);
-          });
-      }
-
-      return res.status(200).json({
-        success: true,
-        message: 'Enquiry submitted successfully! We will contact you shortly.',
-        methods: notificationResults,
-        methodStatus,
-        firstSuccessfulMethod,
+    // Try Email notification with timeout
+    try {
+      // Use port 465 with SSL for Vercel/Render compatibility
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // Use SSL
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+        tls: {
+          rejectUnauthorized: true
+        }
       });
-    }
 
-    // No success yet; wait for remaining tasks to complete (they may already be close).
-    while (pending.length > 0) {
-      const raced = await Promise.race(
-        pending.map(([method, promise]) =>
-          promise.then((result) => ({ method, result }))
-        )
+      const mailOptions = {
+        from: `"Shree Ram Traders Website" <${process.env.EMAIL_USER}>`,
+        to: process.env.EMAIL_RECIPIENT || 'sagarkshn8@gmail.com',
+        subject: `🌾 New Enquiry from ${name} - Shree Ram Traders`,
+        html: generateEmailTemplate({ name, phone, message }),
+        text: `
+New Customer Enquiry - Shree Ram Traders
+
+Name: ${name}
+Phone: ${phone}
+Message: ${message}
+
+Received on: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+        `.trim(),
+      };
+
+      // Add 10 second timeout for email
+      const emailPromise = transporter.sendMail(mailOptions);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Email timeout after 10 seconds')), 10000)
       );
-
-      const idx = pending.findIndex(([m]) => m === raced.method);
-      if (idx >= 0) pending.splice(idx, 1);
-
-      const ok = Boolean(raced.result?.ok);
-      notificationResults[raced.method] = ok;
-      methodStatus[raced.method] = ok ? 'success' : 'failed';
-
-      if (ok && !firstSuccessfulMethod) firstSuccessfulMethod = raced.method;
+      
+      await Promise.race([emailPromise, timeoutPromise]);
+      notificationResults.email = true;
+      console.log(`✅ Email notification sent successfully to ${process.env.EMAIL_RECIPIENT}`);
+    } catch (emailError) {
+      console.error('❌ Error sending email:', emailError.message);
+      console.error('💡 Gmail SMTP may be blocked. WhatsApp notification is working as primary method.');
+      if (emailError.code) {
+        console.error('Error Code:', emailError.code);
+      }
     }
 
+    // Success if at least one notification method worked
     if (notificationResults.whatsapp || notificationResults.email) {
+      const methods = [];
+      if (notificationResults.whatsapp) methods.push('WhatsApp');
+      if (notificationResults.email) methods.push('Email');
+      
+      console.log(`✅ Enquiry sent via: ${methods.join(' + ')}`);
+      
       return res.status(200).json({
         success: true,
-        message: 'Enquiry submitted successfully! We will contact you shortly.',
+        message: 'Enquiry sent successfully! We will contact you shortly.',
         methods: notificationResults,
-        methodStatus,
-        firstSuccessfulMethod,
       });
+    } else {
+      throw new Error('All notification methods failed');
     }
-
-    throw new Error('All notification methods failed');
   } catch (error) {
     console.error('❌ Error processing enquiry:', error);
     
