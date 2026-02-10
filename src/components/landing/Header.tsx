@@ -1,9 +1,10 @@
-import { Phone, MapPin, Menu, X, ChevronRight } from "lucide-react";
+import { Phone, MapPin, Menu, X, ChevronRight, Wheat } from "lucide-react";
 import { useEffect, useMemo, useState, forwardRef, useImperativeHandle } from "react";
 import logo from "/logo.webp";
 import { IoMdCall } from "react-icons/io";
 import { FaWhatsapp } from "react-icons/fa";
 import { useToast } from "@/hooks/use-toast";
+import { validateName, validatePhoneForDial } from "@/lib/contactValidation";
 
 export interface HeaderRef {
   openMobileMenu: () => void;
@@ -15,6 +16,13 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
   const [callbackOpen, setCallbackOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMeta, setSubmitMeta] = useState<
+    | null
+    | {
+        firstSuccessfulMethod?: "whatsapp" | "email";
+        methodStatus?: Record<string, string>;
+      }
+  >(null);
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
@@ -63,6 +71,7 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
     // Small timeout ensures the menu animation finishes slightly or feels smoother
     setTimeout(() => setCallbackOpen(true), 150);
     setSubmitted(false);
+    setSubmitMeta(null);
   };
 
   const closeCallback = () => {
@@ -71,7 +80,29 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const nameError = validateName(form.fullName);
+    if (nameError) {
+      toast({
+        title: "Invalid Name",
+        description: nameError,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const phoneError = validatePhoneForDial(form.country, form.phone);
+    if (phoneError) {
+      toast({
+        title: "Invalid Phone Number",
+        description: phoneError,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
+    setSubmitMeta(null);
 
     try {
       const apiUrl = `/api/contact`;
@@ -94,6 +125,10 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
         toast({
           title: "Request Received! ✅",
           description: "We will call you back soon. Thank you!",
+        });
+        setSubmitMeta({
+          firstSuccessfulMethod: data.firstSuccessfulMethod,
+          methodStatus: data.methodStatus,
         });
         setSubmitted(true);
       } else {
@@ -374,7 +409,17 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
                     disabled={isSubmitting}
                     className="btn-gold w-full justify-center py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isSubmitting ? "Sending..." : "Submit Request"}
+                    {isSubmitting ? (
+                      <span className="inline-flex items-center gap-2">
+                        <span className="relative inline-flex items-center justify-center">
+                          <Wheat className="h-5 w-5 text-white animate-spin" />
+                          <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-white/80 animate-ping" />
+                        </span>
+                        <span className="animate-pulse">Submitting...</span>
+                      </span>
+                    ) : (
+                      "Submit Request"
+                    )}
                   </button>
 
                   <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground sm:flex-row sm:justify-center">
@@ -400,6 +445,25 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
                       Thanks {form.fullName || "there"}! We will call you at{" "}
                       {form.country} {form.phone}.
                     </p>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      {submitMeta?.firstSuccessfulMethod === "whatsapp"
+                        ? "Confirmed via WhatsApp. Email will be attempted in the background."
+                        : submitMeta?.firstSuccessfulMethod === "email"
+                          ? "Confirmed via Email. WhatsApp will be attempted in the background."
+                          : "We received your request and will contact you shortly."}
+                    </p>
+                    {submitMeta?.methodStatus && (
+                      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                        <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
+                          <Wheat className="h-3.5 w-3.5 text-accent" />
+                          WhatsApp: {submitMeta.methodStatus.whatsapp}
+                        </span>
+                        <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
+                          <Wheat className="h-3.5 w-3.5 text-accent" />
+                          Email: {submitMeta.methodStatus.email}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex flex-col gap-3">
@@ -417,6 +481,7 @@ const Header = forwardRef<HeaderRef>((props, ref) => {
                       onClick={() => {
                         setSubmitted(false);
                         setForm((prev) => ({ ...prev, phone: "", fullName: "" }));
+                        setSubmitMeta(null);
                       }}
                       className="w-full rounded-lg border border-input bg-background px-4 py-3 text-sm font-semibold text-foreground transition hover:bg-accent/10"
                     >

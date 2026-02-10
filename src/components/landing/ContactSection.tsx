@@ -1,6 +1,7 @@
-import { Phone, MapPin, Clock, Send } from "lucide-react";
+import { Phone, MapPin, Clock, Send, Wheat, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { validateMessage, validateName, validatePhoneAuto } from "@/lib/contactValidation";
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -10,10 +11,49 @@ const ContactSection = () => {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState<
+    | null
+    | {
+        firstSuccessfulMethod?: "whatsapp" | "email";
+        methodStatus?: Record<string, string>;
+      }
+  >(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const nameError = validateName(formData.name);
+    if (nameError) {
+      toast({
+        title: "Invalid Name",
+        description: nameError,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const phoneError = validatePhoneAuto(formData.phone);
+    if (phoneError) {
+      toast({
+        title: "Invalid Phone Number",
+        description: phoneError,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const messageError = validateMessage(formData.message);
+    if (messageError) {
+      toast({
+        title: "Invalid Message",
+        description: messageError,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
+    setSubmitResult(null);
 
     try {
       const apiUrl = `/api/contact`;
@@ -29,9 +69,9 @@ const ContactSection = () => {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        toast({
-          title: "Enquiry Sent! ✅",
-          description: "We will contact you shortly. Thank you for your interest!",
+        setSubmitResult({
+          firstSuccessfulMethod: data.firstSuccessfulMethod,
+          methodStatus: data.methodStatus,
         });
         setFormData({ name: "", phone: "", message: "" });
       } else {
@@ -148,7 +188,48 @@ const ContactSection = () => {
                 Fill the form below and we'll get back to you shortly.
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              {submitResult ? (
+                <div className="rounded-2xl border border-accent/30 bg-accent/10 p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="h-12 w-12 rounded-xl bg-accent/20 flex items-center justify-center">
+                      <CheckCircle2 className="h-6 w-6 text-accent" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-lg font-bold text-foreground">Request submitted</p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {submitResult.firstSuccessfulMethod === "whatsapp"
+                          ? "WhatsApp notification is confirmed. Email will be attempted in the background."
+                          : submitResult.firstSuccessfulMethod === "email"
+                            ? "Email notification is confirmed. WhatsApp will be attempted in the background."
+                            : "We received your request. We will contact you shortly."}
+                      </p>
+                      <div className="mt-4 flex items-center gap-3 text-sm text-muted-foreground">
+                        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
+                          <Wheat className="h-4 w-4 text-accent" />
+                          <span>
+                            {submitResult.methodStatus?.whatsapp ? `WhatsApp: ${submitResult.methodStatus.whatsapp}` : "WhatsApp"}
+                          </span>
+                        </div>
+                        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
+                          <Wheat className="h-4 w-4 text-accent" />
+                          <span>
+                            {submitResult.methodStatus?.email ? `Email: ${submitResult.methodStatus.email}` : "Email"}
+                          </span>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setSubmitResult(null)}
+                        className="mt-5 w-full rounded-lg border border-input bg-background px-4 py-3 text-sm font-semibold text-foreground transition hover:bg-accent/10"
+                      >
+                        Send Another Enquiry
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
                     Your Name
@@ -191,6 +272,7 @@ const ContactSection = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
+                    minLength={5}
                     rows={4}
                     placeholder="Tell us about your requirement..."
                     className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all resize-none"
@@ -203,7 +285,13 @@ const ContactSection = () => {
                   className="btn-primary w-full justify-center disabled:opacity-70 disabled:cursor-not-allowed shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
                 >
                   {isSubmitting ? (
-                    <span className="animate-pulse">Sending...</span>
+                    <span className="inline-flex items-center gap-2">
+                      <span className="relative inline-flex items-center justify-center">
+                        <Wheat className="w-5 h-5 text-white animate-spin" />
+                        <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-white/80 animate-ping" />
+                      </span>
+                      <span className="animate-pulse">Submitting...</span>
+                    </span>
                   ) : (
                     <>
                       <Send className="w-5 h-5" />
@@ -212,6 +300,7 @@ const ContactSection = () => {
                   )}
                 </button>
               </form>
+              )}
             </div>
           </div>
         </div>
