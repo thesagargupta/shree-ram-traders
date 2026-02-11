@@ -168,6 +168,10 @@ const ContactSection = () => {
               </div>
             </div>
 
+            <p className="text-sm text-muted-foreground mb-8">
+              Proprietor: <span className="font-semibold text-foreground">Tripurari Prasad</span>
+            </p>
+
             {/* CTA Button */}
             <a
               href="tel:+919430946499"
@@ -207,7 +211,7 @@ const ContactSection = () => {
                         {/* <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
                           <Wheat className="h-4 w-4 text-accent" />
                           <span>
-                            {submitResult.methodStatus?.whatsapp ? `WhatsApp: ${submitResult.methodStatus.whatsapp}` : "WhatsApp"}
+                          {submitResult.methodStatus?.whatsapp ? `WhatsApp: ${submitRResult.methodStatus.whatsapp}` : "WhatsApp"}
                           </span>
                         </div>
                         <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1">
