@@ -72,7 +72,7 @@ const Footer = () => {
                   <FaFacebook className="w-5 h-5 text-white group-hover:text-gold transition-colors" />
                 </a>
                 <a
-                  href="https://instagram.com/shreeramtraders"
+                  href="https://instagram.com/shreeramtradersrxl"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center transition-all duration-300 hover:scale-110 group"
