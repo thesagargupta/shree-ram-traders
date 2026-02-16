@@ -230,6 +230,31 @@
   .delay-500 { animation-delay: 500ms; }
   .delay-700 { animation-delay: 700ms; }
   .delay-1000 { animation-delay: 1000ms; }
+
+  /* 3D Transform Utilities for Reviews Carousel */
+  .perspective-\[2000px\] {
+    perspective: 2000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .rotateY-0 {
+    transform: rotateY(0deg);
+  }
+
+  .\-rotateY-\[25deg\] {
+    transform: rotateY(-25deg);
+  }
+
+  .rotateY-\[25deg\] {
+    transform: rotateY(25deg);
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
 }
 
 @keyframes fadeUp {
