@@ -1,16 +1,55 @@
 import { Phone, MapPin, ChevronDown } from "lucide-react";
 import heroRice from "@/assets/hero-rice.webp";
+import { useState, useEffect } from "react";
 
 const HeroSection = () => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+
+  useEffect(() => {
+    // Preload the video
+    const video = document.createElement('video');
+    video.src = '/bg-video.mp4';
+    video.muted = true;
+    video.playsInline = true;
+    
+    // When video can play through without buffering
+    video.addEventListener('canplaythrough', () => {
+      setVideoLoaded(true);
+      setTimeout(() => setVideoReady(true), 100);
+    });
+    
+    video.load();
+  }, []);
+
   return (
     <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-28 pb-28 sm:pt-32 sm:pb-32 md:pt-40 md:pb-12">
-      {/* Background Image */}
+      {/* Background Media */}
       <div className="absolute inset-0 z-0">
+        {/* Background Image - Always shown as fallback */}
         <img
           src={heroRice}
           alt="Premium Rice"
-          className="w-full h-full object-cover"
+          className={`w-full h-full object-cover transition-opacity duration-1000 ${
+            videoReady ? 'opacity-0' : 'opacity-100'
+          }`}
         />
+        
+        {/* Background Video - Shown when loaded */}
+        {videoLoaded && (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+              videoReady ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <source src="/bg-video.mp4" type="video/mp4" />
+          </video>
+        )}
+        
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-forest-dark/95 via-forest/85 to-forest-dark/70" />
       </div>
@@ -58,9 +97,10 @@ const HeroSection = () => {
               Call Now
             </a>
             <a
-              href="https://maps.google.com/?q=Shree+Ram+Traders+Raxaul" 
+              href="https://maps.google.com/?q=Shree+Ram+Traders+Raxaul"
               target="_blank"
               rel="noopener noreferrer"
+              onMouseDown={(e) => e.preventDefault()} // prevent mouse focus/selection while preserving keyboard accessibility
               className="group flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3 md:py-4 rounded-lg font-semibold text-cream bg-white/10 backdrop-blur-sm border-2 border-cream/50 hover:bg-cream hover:text-forest hover:border-cream transition-all duration-300 hover:scale-105"
             >
               <MapPin className="w-5 h-5" />
