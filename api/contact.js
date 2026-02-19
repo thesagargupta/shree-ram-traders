@@ -193,7 +193,8 @@ const generateEmailTemplate = (data) => {
           <p>This is an automated email from your website contact form.</p>
           <p><strong>Shree Ram Traders</strong><br>
           Handi Bazar, Raxaul, Bihar - 845305<br>
-          📞 +91 94309 46499</p>
+          📞 +91 94309 46499<br>
+          📧 sales@shreeramtradersrxl.in</p>
         </div>
       </div>
     </body>
@@ -258,7 +259,7 @@ export default async function handler(req, res) {
 
       const mailOptions = {
         from: `"Shree Ram Traders Website" <${process.env.EMAIL_USER}>`,
-        to: process.env.EMAIL_RECIPIENT || 'sagarkshn8@gmail.com',
+        to: process.env.EMAIL_RECIPIENT || 'sales@shreeramtradersrxl.in',
         subject: `🌾 New Enquiry from ${name} - Shree Ram Traders`,
         html: generateEmailTemplate({ name, phone, message }),
         text: `

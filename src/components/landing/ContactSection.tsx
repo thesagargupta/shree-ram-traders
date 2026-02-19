@@ -139,6 +139,23 @@ const ContactSection = () => {
               </a>
 
               <a
+                href="mailto:sales@shreeramtradersrxl.in"
+                className="flex items-center gap-4 p-5 rounded-xl bg-gradient-to-br from-card to-card/50 border border-border hover:border-accent/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+              >
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-sm text-muted-foreground font-medium">Email Us</div>
+                  <div className="text-lg font-bold text-foreground group-hover:text-accent transition-colors break-all">
+                    sales@shreeramtradersrxl.in
+                  </div>
+                </div>
+              </a>
+
+              <a
                 href="https://maps.google.com/?q=Shree+Ram+Traders+Raxaul"
                 target="_blank"
                 rel="noopener noreferrer"
